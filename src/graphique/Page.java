@@ -3,7 +3,7 @@ package graphique;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class page {
+public class Page {
 
     public static void main(String[] args) {
         // Cette partie doit être exécutée dans l'EDT (Event Dispatch Thread)
