@@ -1,5 +1,8 @@
 package gui;
 
+/**
+ * Cette classe représente le contrôleur du jeu de Pendu. Elle gère l'interface graphique et la logique du jeu.
+ */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,9 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Cette classe représente le contrôleur du jeu de Pendu. Elle gère l'interface graphique et la logique du jeu.
- */
 public class ControlleurJeu extends JFrame implements ActionListener {
     // Déclaration des variables de classe...
 	private static final long serialVersionUID = 1L;
