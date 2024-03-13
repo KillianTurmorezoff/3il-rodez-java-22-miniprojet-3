@@ -4,14 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ControlleurJeu extends JFrame implements ActionListener {
-    private Partie partie;
+    private static final long serialVersionUID = 1L;
+	private Partie partie;
     private JLabel motLabel;
     private JTextField lettreField;
+    private int nombreErreurs;
+    private JLabel penduLabel;
+    private Set<Character> lettresProposees;
+    
 
     public ControlleurJeu(String mot) {
         this.partie = new Partie(mot);
+        this.nombreErreurs = 0;
+        this.lettresProposees = new HashSet<>();
         initUI();
     }
 
@@ -23,14 +32,45 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         motLabel = new JLabel(partie.getMotActuel(), SwingConstants.CENTER);
         add(motLabel, BorderLayout.CENTER);
 
+        penduLabel = new JLabel("", SwingConstants.CENTER);
+        penduLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
+        updatePenduLabel();
+        add(penduLabel, BorderLayout.NORTH);
+
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout());
+
+        JLabel lettresProposeesLabel = new JLabel("Lettres proposées : ");
+        bottomPanel.add(lettresProposeesLabel);
+
         lettreField = new JTextField(10);
         lettreField.addActionListener(this);
-        add(lettreField, BorderLayout.SOUTH);
+        bottomPanel.add(lettreField);
+
+        add(bottomPanel, BorderLayout.SOUTH);
 
         pack();
-        setSize(400,500);
+        setSize(400, 400);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void updatePenduLabel() {
+        StringBuilder penduStr = new StringBuilder("Pendu : ");
+        for (int i = 0; i < nombreErreurs; i++) {
+            penduStr.append("| ");
+        }
+        penduLabel.setText(penduStr.toString());
+    }
+
+    private void updateLettresProposeesLabel(char lettre) {
+        lettresProposees.add(lettre);
+        StringBuilder lettresProposeesStr = new StringBuilder("Lettres proposées : ");
+        for (char l : lettresProposees) {
+            lettresProposeesStr.append(l).append(" ");
+        }
+        lettreField.setText("");
+        lettreField.setToolTipText(lettresProposeesStr.toString());
     }
 
     @Override
@@ -38,16 +78,26 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         String lettreStr = lettreField.getText().toLowerCase();
         if (lettreStr.length() == 1 && Character.isLetter(lettreStr.charAt(0))) {
             char lettre = lettreStr.charAt(0);
+            if (lettresProposees.contains(lettre)) {
+                JOptionPane.showMessageDialog(this, "Vous avez déjà proposé cette lettre !");
+                return;
+            }
             if (partie.devinerLettre(lettre)) {
                 JOptionPane.showMessageDialog(this, "Lettre trouvée !");
             } else {
                 JOptionPane.showMessageDialog(this, "Lettre incorrecte !");
+                nombreErreurs++;
+                updatePenduLabel();
+                if (nombreErreurs >= 6) {
+                    JOptionPane.showMessageDialog(this, "Vous avez perdu !");
+                    dispose();
+                }
             }
-            lettreField.setText("");
+            updateLettresProposeesLabel(lettre);
             motLabel.setText(partie.getMotActuel());
             if (partie.estMotDevine()) {
                 JOptionPane.showMessageDialog(this, "Félicitations, vous avez deviné le mot : " + partie.getMotActuel());
-                dispose(); // Fermer la fenêtre après la fin de la partie
+                dispose();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Veuillez entrer une lettre valide !");
@@ -58,6 +108,7 @@ public class ControlleurJeu extends JFrame implements ActionListener {
     public static void main(String[] args) {
         MotsReader motsReader = new MotsReader("mots.txt");
         String motAleatoire = motsReader.choisirMotAleatoire();
+        System.out.println(motAleatoire);
 
         SwingUtilities.invokeLater(() -> new ControlleurJeu(motAleatoire));
     }
