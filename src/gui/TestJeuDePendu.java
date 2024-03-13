@@ -2,9 +2,7 @@ package gui;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import gui.ControlleurJeu;
-import gui.MotsReader;
-import gui.Partie;
+
 
 public class TestJeuDePendu {
 
