@@ -6,7 +6,7 @@ public class Partie {
 
     public Partie(String motADeviner) {
         this.motADeviner = motADeviner;
-        this.motActuel = "_".repeat(motADeviner.length()); // Initialise avec des underscores
+        this.motActuel = " _ ".repeat(motADeviner.length()); // Initialise avec des underscores
     }
 
     public boolean devinerLettre(char lettre) {
