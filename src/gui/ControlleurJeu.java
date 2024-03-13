@@ -28,6 +28,7 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         add(lettreField, BorderLayout.SOUTH);
 
         pack();
+        setSize(400,500);
         setLocationRelativeTo(null);
         setVisible(true);
     }
