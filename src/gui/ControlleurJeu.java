@@ -7,8 +7,12 @@ import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Cette classe représente le contrôleur du jeu de Pendu. Elle gère l'interface graphique et la logique du jeu.
+ */
 public class ControlleurJeu extends JFrame implements ActionListener {
-    private static final long serialVersionUID = 1L;
+    // Déclaration des variables de classe...
+	private static final long serialVersionUID = 1L;
 	private Partie partie;
     private JLabel motLabel;
     private JTextField lettreField;
@@ -16,14 +20,21 @@ public class ControlleurJeu extends JFrame implements ActionListener {
     private JLabel penduLabel;
     private Set<Character> lettresProposees;
     
-
+    /**
+     * Constructeur de la classe ControlleurJeu.
+     *
+     * @param mot Le mot à deviner dans le jeu.
+     */
     public ControlleurJeu(String mot) {
         this.partie = new Partie(mot);
         this.nombreErreurs = 0;
         this.lettresProposees = new HashSet<>();
         initUI();
     }
-
+    
+    /**
+     * Initialise l'interface utilisateur.
+     */
     private void initUI() {
         setTitle("Jeu de Pendu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,6 +66,10 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    
+    /**
+     * Met à jour l'affichage du pendu en fonction du nombre d'erreurs.
+     */
     private void updatePenduLabel() {
         StringBuilder penduStr = new StringBuilder("Pendu : ");
         for (int i = 0; i < nombreErreurs; i++) {
@@ -63,6 +78,11 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         penduLabel.setText(penduStr.toString());
     }
 
+    /**
+     * Met à jour l'affichage des lettres déjà proposées par le joueur.
+     *
+     * @param lettre La lettre proposée par le joueur.
+     */
     private void updateLettresProposeesLabel(char lettre) {
         lettresProposees.add(lettre);
         StringBuilder lettresProposeesStr = new StringBuilder("Lettres proposées : ");
@@ -73,6 +93,11 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         lettreField.setToolTipText(lettresProposeesStr.toString());
     }
 
+    /**
+     * Gère les actions à effectuer lorsqu'un événement (clic sur le bouton) se produit.
+     *
+     * @param e L'événement déclenché.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String lettreStr = lettreField.getText().toLowerCase();
@@ -105,6 +130,11 @@ public class ControlleurJeu extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Point d'entrée du programme. Crée une instance de la classe ControlleurJeu avec un mot aléatoire.
+     *
+     * @param args Les arguments de la ligne de commande (non utilisés).
+     */
     public static void main(String[] args) {
         MotsReader motsReader = new MotsReader("mots.txt");
         String motAleatoire = motsReader.choisirMotAleatoire();

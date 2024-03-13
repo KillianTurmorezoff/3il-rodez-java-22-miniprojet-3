@@ -7,10 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * La classe MotsReader permet de lire une liste de mots à partir d'un fichier texte
+ * et de choisir aléatoirement un mot parmi ceux lus.
+ */
 public class MotsReader {
     private List<String> mots = new ArrayList<>();
     private Random random = new Random();
 
+    /**
+     * Constructeur de la classe MotsReader.
+     *
+     * @param fileName Le nom du fichier texte à partir duquel les mots seront lus.
+     */
     public MotsReader(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -22,6 +31,11 @@ public class MotsReader {
         }
     }
 
+    /**
+     * Choisi aléatoirement un mot parmi ceux lus à partir du fichier texte.
+     *
+     * @return Le mot choisi aléatoirement.
+     */
     public String choisirMotAleatoire() {
         return mots.get(random.nextInt(mots.size()));
     }
