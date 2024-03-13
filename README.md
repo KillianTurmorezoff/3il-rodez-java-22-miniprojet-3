@@ -26,6 +26,9 @@ Stratégie :
 List (ArrayList) :
     Une implémentation de List, en l'occurrence ArrayList, est utilisée pour stocker les mots lus à partir du fichier de mots. Cela permet un accès facile et efficace aux mots disponibles pour le jeu.
     
+Set (HashSet) :
+    Une implémentation de Set, en l'occurrence HashSet, est utilisée pour stocker les lettres déjà proposées par l'utilisateur. Cela garantit que chaque lettre est proposée une seule fois.
+    
 ## Fonctionnalités attendues
 
 1. Lecture aléatoire d'un mot à deviner à partir d'un fichier texte donné à la racine du projet. *fait*
